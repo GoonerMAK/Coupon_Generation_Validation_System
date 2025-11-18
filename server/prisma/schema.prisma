@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String  @id @default(uuid())
+  username    String? @unique
+  password    String
+  email       String  @unique
+  name        String?
+  age         Int?
+  gender      String?
+  nationality String?
+
+  coupons UserCoupon[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Coupon {
+  id   String     @id @default(uuid())
+  type CouponType 
+
+  max_usage         Int?
+  max_uses_per_user Int?
+  valid_from        DateTime?
+  valid_until       DateTime?
+  total_uses        Int       @default(0)
+
+  is_valid Boolean @default(true)
+
+  userCoupons UserCoupon[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model UserCoupon {
+  id        String @id @default(uuid())
+  user_id   String
+  coupon_id String
+
+  is_applied Boolean @default(false)
+
+  user   User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  coupon Coupon @relation(fields: [coupon_id], references: [id], onDelete: Cascade)
+}
+
+enum CouponType {
+  USER_SPECIFIC
+  TIME_SPECIFIC
+}
