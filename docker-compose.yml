@@ -8,4 +8,4 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: "MAK#9555"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
