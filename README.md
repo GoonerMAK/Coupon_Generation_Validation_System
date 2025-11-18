@@ -1,2 +1,4 @@
 # Coupon_Generation_Validation_System
-Coupon Generation and Validation System for an E-coomerce platform
+After installing the dependencies
+Backend: npm run dev
+Docker: docker compose up -d
